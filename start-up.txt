@@ -18,4 +18,3 @@ then
 cp -rp /etc/ssh/sshd_config-bkp /etc/ssh/sshd_config
 fi
 systemctl reload sshd
-yum install git ansible -y
