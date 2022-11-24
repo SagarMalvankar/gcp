@@ -1,0 +1,21 @@
+#!/bin/bash
+sudo su -
+useradd sagar
+echo sagar | passwd sagar --stdin
+touch /etc/sudoers.d/sagar
+echo "sagar    ALL=(ALL)    NOPASSWD: ALL" >> /etc/sudoers.d/sagar
+visudo -cf /etc/sudoers
+if [ $? -ne 0 ]
+then
+rm -rf /etc/sudoers.d/sagar
+fi
+cp -rp /etc/ssh/sshd_config /etc/ssh/sshd_config-bkp
+sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/gI' /etc/ssh/sshd_config
+sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/gI' /etc/ssh/sshd_config
+sshd -T
+if [ $? -ne 0 ]
+then
+cp -rp /etc/ssh/sshd_config-bkp /etc/ssh/sshd_config
+fi
+systemctl reload sshd
+yum install git ansible -y
