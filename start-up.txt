@@ -18,3 +18,5 @@ then
 cp -rp /etc/ssh/sshd_config-bkp /etc/ssh/sshd_config
 fi
 systemctl reload sshd
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+sudo dnf install ansible -y
