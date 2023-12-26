@@ -1,0 +1,29 @@
+name: Upload to GCP Storage
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.5.0
+        with:
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+
+      - name: Upload to GCP Storage
+        run: |
+          # Set variables
+          BUCKET_NAME="gcpdata-handy"
+          SOURCE_DIR="salt-master/*"
+
+          # Copy data to GCP bucket
+          gsutil -m cp -r $SOURCE_DIR/* gs://$BUCKET_NAME
