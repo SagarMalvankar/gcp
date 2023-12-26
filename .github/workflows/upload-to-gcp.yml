@@ -23,7 +23,7 @@ jobs:
         run: |
           # Set variables
           BUCKET_NAME="gcpdata-handy"
-          SOURCE_DIR="./*"
+          SOURCE_DIR="*"
 
           # Copy data to GCP bucket
           gsutil -m cp -r $SOURCE_DIR/* gs://$BUCKET_NAME
